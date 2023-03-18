@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\DragonTreasureRepository;
+use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
@@ -114,6 +115,14 @@ class DragonTreasure
     public function getPlunderedAt(): \DateTimeImmutable
     {
         return $this->plunderedAt;
+    }
+
+    /**
+     * A human-readable representation of when this treasure was plundered.
+     */
+    public function getPlunderedAtAgo(): string
+    {
+        return Carbon::instance($this->plunderedAt)->diffForHumans();
     }
 
     public function getIsPublished(): ?bool
