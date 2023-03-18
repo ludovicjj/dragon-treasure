@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\Patch;
 
 #[ORM\Entity(repositoryClass: DragonTreasureRepository::class)]
 #[ApiResource(
+    shortName: 'Treasure',
     description: 'A rare and valuable treasure.',
     operations: [
         new Get(),
