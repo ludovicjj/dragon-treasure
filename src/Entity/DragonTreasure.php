@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DragonTreasureRepository::class)]
 #[ApiResource(
@@ -23,6 +24,12 @@ use ApiPlatform\Metadata\Patch;
         new Post(),
         new Put(),
         new Patch()
+    ],
+    normalizationContext: [
+        'groups' => ['treasure:read']
+    ],
+    denormalizationContext: [
+        'groups' => ['treasure:write']
     ]
 )]
 class DragonTreasure
@@ -33,9 +40,11 @@ class DragonTreasure
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['treasure:read', 'treasure:write'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['treasure:read'])]
     private ?string $description = null;
 
     /**
@@ -43,20 +52,23 @@ class DragonTreasure
      * @var int|null
      */
     #[ORM\Column]
+    #[Groups(['treasure:read', 'treasure:write'])]
     private ?int $value = null;
 
     #[ORM\Column]
+    #[Groups(['treasure:read', 'treasure:write'])]
     private ?int $coolFactor = null;
 
     #[ORM\Column]
     private \DateTimeImmutable $plunderedAt;
 
     #[ORM\Column]
-    private ?bool $isPublished = null;
+    private ?bool $isPublished;
 
     public function __construct()
     {
         $this->plunderedAt = new \DateTimeImmutable();
+        $this->isPublished = false;
     }
 
     public function getId(): ?int
@@ -81,6 +93,14 @@ class DragonTreasure
         return $this->description;
     }
 
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    #[Groups(['treasure:write'])]
     public function setTextDescription(string $description): self
     {
         $this->description = nl2br($description);
@@ -117,15 +137,23 @@ class DragonTreasure
         return $this->plunderedAt;
     }
 
+    public function setPlunderedAt(\DateTimeImmutable $plunderedAt): self
+    {
+        $this->plunderedAt = $plunderedAt;
+
+        return $this;
+    }
+
     /**
      * A human-readable representation of when this treasure was plundered.
      */
+    #[Groups(['treasure:read'])]
     public function getPlunderedAtAgo(): string
     {
         return Carbon::instance($this->plunderedAt)->diffForHumans();
     }
 
-    public function getIsPublished(): ?bool
+    public function getIsPublished(): bool
     {
         return $this->isPublished;
     }
