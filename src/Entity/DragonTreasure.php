@@ -66,6 +66,9 @@ class DragonTreasure
     #[ORM\Column]
     private ?bool $isPublished;
 
+    // let args name with default value null
+    // serializer need to be able to instantiate the object
+    // Then validator will handle violation (property name can't be null)
     public function __construct(string $name = null)
     {
         $this->plunderedAt = new \DateTimeImmutable();
