@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: DragonTreasureRepository::class)]
 #[ApiResource(
@@ -100,6 +101,7 @@ class DragonTreasure
         return $this;
     }
 
+    #[SerializedName('description')]
     #[Groups(['treasure:write'])]
     public function setTextDescription(string $description): self
     {
