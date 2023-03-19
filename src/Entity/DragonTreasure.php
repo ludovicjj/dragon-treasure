@@ -66,10 +66,11 @@ class DragonTreasure
     #[ORM\Column]
     private ?bool $isPublished;
 
-    public function __construct()
+    public function __construct(string $name = null)
     {
         $this->plunderedAt = new \DateTimeImmutable();
         $this->isPublished = false;
+        $this->name = $name;
     }
 
     public function getId(): ?int
@@ -80,13 +81,6 @@ class DragonTreasure
     public function getName(): ?string
     {
         return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getDescription(): ?string
