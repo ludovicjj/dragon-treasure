@@ -7,6 +7,7 @@ use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use App\Repository\DragonTreasureRepository;
 use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
@@ -40,6 +41,17 @@ use function Symfony\Component\String\u;
     paginationClientItemsPerPage: true,
     paginationItemsPerPage: 10,
     paginationMaximumItemsPerPage: 30
+)]
+#[ApiFilter(
+    PropertyFilter::class,
+    arguments: ['whitelist' => [
+        'name',
+        'description',
+        'shortDescription',
+        'coolFactor',
+        'value',
+        'plunderedAtAgo'
+    ]]
 )]
 class DragonTreasure
 {
