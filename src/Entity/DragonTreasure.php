@@ -20,6 +20,7 @@ use ApiPlatform\Metadata\Patch;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use function Symfony\Component\String\u;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DragonTreasureRepository::class)]
 #[ApiResource(
@@ -70,24 +71,30 @@ class DragonTreasure
     #[ORM\Column(length: 255)]
     #[Groups(['treasure:read', 'treasure:write'])]
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 50, maxMessage: 'Describe your loot in 50 chars or less')]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Groups(['treasure:read'])]
+    #[Assert\NotBlank]
     private ?string $description = null;
 
     /**
      * The estimated value of this treasure, in gold coins.
-     * @var int|null
+     * @var int
      */
     #[ORM\Column]
     #[Groups(['treasure:read', 'treasure:write'])]
     #[ApiFilter(RangeFilter::class)]
-    private ?int $value = null;
+    #[Assert\GreaterThanOrEqual(0)]
+    private int $value = 0;
 
     #[ORM\Column]
     #[Groups(['treasure:read', 'treasure:write'])]
-    private ?int $coolFactor = null;
+    #[Assert\GreaterThanOrEqual(0)]
+    #[Assert\LessThanOrEqual(10)]
+    private int $coolFactor = 0;
 
     #[ORM\Column]
     private \DateTimeImmutable $plunderedAt;
@@ -143,7 +150,7 @@ class DragonTreasure
         return $this;
     }
 
-    public function getValue(): ?int
+    public function getValue(): int
     {
         return $this->value;
     }
@@ -155,7 +162,7 @@ class DragonTreasure
         return $this;
     }
 
-    public function getCoolFactor(): ?int
+    public function getCoolFactor(): int
     {
         return $this->coolFactor;
     }
