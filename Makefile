@@ -61,6 +61,14 @@ sf-fixtures: ## Load Fixtures.
 	$(SYMFONY_CONSOLE) doctrine:fixtures:load --no-interaction
 .PHONY: sf-fixtures
 
+sf-dump-current-api-config: ## Dump current configuration of api platform.
+	$(SYMFONY_CONSOLE) debug:config api_platform
+.PHONY: sf-dump-current-api-config
+
+sf-dump-api-config: ## Dump a full tree of possible configuration of api platform.
+	$(SYMFONY_CONSOLE) config:dump api_platform
+.PHONY: sf-dump-api-config
+
 sf-dump-env: ## Dump Env var into env.*.
 	$(SYMFONY_CONSOLE) debug:dotenv
 .PHONY: sf-dump-env
