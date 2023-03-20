@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use function Symfony\Component\String\u;
 
 #[ORM\Entity(repositoryClass: DragonTreasureRepository::class)]
 #[ApiResource(
@@ -99,6 +100,12 @@ class DragonTreasure
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    #[Groups(['treasure:read'])]
+    public function getShortDescription(): ?string
+    {
+        return u($this->description)->truncate(40, '...');
     }
 
     public function setDescription(string $description): self
