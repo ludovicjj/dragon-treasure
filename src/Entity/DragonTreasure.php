@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\DragonTreasureRepository;
 use Carbon\Carbon;
@@ -67,6 +69,7 @@ class DragonTreasure
     private \DateTimeImmutable $plunderedAt;
 
     #[ORM\Column]
+    #[ApiFilter(BooleanFilter::class)]
     private ?bool $isPublished;
 
     // let args name with default value null
