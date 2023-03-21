@@ -27,7 +27,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     shortName: 'Treasure',
     description: 'A rare and valuable treasure.',
     operations: [
-        new Get(),
+        new Get(
+            normalizationContext: [
+                'groups' => ['treasure:read', 'treasure:item:get']
+            ]
+        ),
         new GetCollection(),
         new Post(),
         new Put(),
