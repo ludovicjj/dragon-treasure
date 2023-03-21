@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,6 +22,17 @@ use ApiPlatform\Metadata\ApiFilter;
 #[ApiResource(
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']],
+)]
+#[ApiResource(
+    uriTemplate: '/treasures/{treasure_id}/owner.{_format}',
+    operations: [new Get()],
+    uriVariables: [
+        'treasure_id' => new Link(
+            fromProperty: 'owner',
+            fromClass: DragonTreasure::class
+        )
+    ],
+    normalizationContext: ['groups' => ['user:read']]
 )]
 #[UniqueEntity(fields: ['email'], message: 'this email is already used')]
 #[UniqueEntity(fields: ['username'], message: 'this username is already used')]
