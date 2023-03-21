@@ -105,6 +105,7 @@ class DragonTreasure
 
     #[ORM\ManyToOne(inversedBy: 'dragonTreasures')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['treasure:read', 'treasure:write'])]
     private ?User $owner = null;
 
     // let args name with default value null
