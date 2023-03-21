@@ -103,6 +103,10 @@ class DragonTreasure
     #[ApiFilter(BooleanFilter::class)]
     private ?bool $isPublished;
 
+    #[ORM\ManyToOne(inversedBy: 'dragonTreasures')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $owner = null;
+
     // let args name with default value null
     // serializer need to be able to instantiate the object
     // Then validator will handle violation (property name can't be null)
@@ -203,6 +207,18 @@ class DragonTreasure
     public function setIsPublished(bool $isPublished): self
     {
         $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }
