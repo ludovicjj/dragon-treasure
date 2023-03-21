@@ -65,6 +65,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         'plunderedAtAgo'
     ]]
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'owner.username' => 'partial'
+])]
 class DragonTreasure
 {
     #[ORM\Id]
