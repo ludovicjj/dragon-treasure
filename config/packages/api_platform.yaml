@@ -5,3 +5,10 @@ api_platform:
         json: [ 'application/json' ]
         html: [ 'text/html' ]
         jsonhal: [ 'application/hal+json' ]
+    # disable docs : /api/docs.{json|jsonld}
+    # enable_docs: false
+    # disable entrypoint or API home page : /api
+    # enable_entrypoint: false
+    # disable swagger docs
+    # enable_swagger: false
+    # enable_swagger_ui: false
