@@ -11,6 +11,9 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 
+// bootstrap JS
+import 'bootstrap';
+
 // Registers React controller components to allow loading them from Twig
 //
 // React controller components are components that are meant to be rendered
