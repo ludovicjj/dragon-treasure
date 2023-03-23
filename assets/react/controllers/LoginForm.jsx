@@ -3,11 +3,17 @@ import React from 'react';
 const Field = React.forwardRef(function (props, ref) {
     const {name, helpText, children} = props
 
+    function handleClick(e) {
+        e.preventDefault()
+        const {current} = ref
+        current.value = e.target.innerText
+    }
+
     return <div className="mb-3">
         <label htmlFor={name} className="form-label">{children}</label>
         <input type="text" name={name} id={name} ref={ref} className="form-control"/>
         <div id={name + 'HelpBlock'} className="form-text">
-            { helpText }
+            Try: <a href="#" onClick={handleClick}>{ helpText }</a>
         </div>
     </div>
 })
@@ -61,8 +67,8 @@ export default class Home extends React.Component {
             {this.state.error && (
                 <div className="alert alert-danger">{this.state.error}</div>
             )}
-            <Field name="email" ref={this.email} helpText={'Try: hmarquardt@hotmail.com'}>Email</Field>
-            <Field name="password" ref={this.password} helpText={'Try: password'}>Password</Field>
+            <Field name="email" ref={this.email} helpText={'hmarquardt@hotmail.com'}>Email</Field>
+            <Field name="password" ref={this.password} helpText={'password'}>Password</Field>
             <button className="btn btn-primary">Submit</button>
         </form>;
     }
