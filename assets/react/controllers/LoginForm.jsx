@@ -49,6 +49,9 @@ export default class Home extends React.Component {
         }
 
         // reset form fields
+        this.setState({
+            error: ''
+        })
         email.value= ''
         password.value= ''
     }
