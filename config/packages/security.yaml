@@ -20,6 +20,7 @@ security:
                 check_path: app_login
                 username_path: email
                 password_path: password
+                failure_handler: App\Security\AppAuthFailureHandler
             logout:
                 path: app_logout
 
