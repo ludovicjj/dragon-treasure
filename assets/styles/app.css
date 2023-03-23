@@ -27,5 +27,5 @@ body {
     object-fit: cover;
 }
 .card-login > .card-body {
-    min-height: 242px;
+    min-height: 292px;
 }
