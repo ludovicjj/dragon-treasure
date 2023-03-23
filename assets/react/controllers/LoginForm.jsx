@@ -13,24 +13,30 @@ export default class Home extends React.Component {
     constructor(props) {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.username = React.createRef()
+        this.email = React.createRef()
         this.password = React.createRef()
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
-        const username = this.username.current
+        const email = this.email.current
         const password = this.password.current
 
-        console.log(
-            username.value,
-            password.value
-        )
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email.value,
+                password: password.value
+            })
+        })
     }
 
     render () {
         return <form onSubmit={this.handleSubmit}>
-            <Field name="username" ref={this.username}>Username</Field>
+            <Field name="email" ref={this.email}>Email</Field>
             <Field name="password" ref={this.password}>Password</Field>
             <button className="btn btn-primary">Submit</button>
         </form>;
