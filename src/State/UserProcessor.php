@@ -20,6 +20,7 @@ class UserProcessor implements ProcessorInterface
         if ($data->getPlainPassword()) {
             $data->setPassword($this->passwordHasher->hashPassword($data, $data->getPlainPassword()));
         }
+        // erase plain password
         $data->eraseCredentials();
 
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
