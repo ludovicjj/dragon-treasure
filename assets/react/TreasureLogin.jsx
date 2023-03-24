@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 const Field = React.forwardRef(function (props, ref) {
     const {name, helpText, children} = props
@@ -18,7 +19,7 @@ const Field = React.forwardRef(function (props, ref) {
     </div>
 })
 
-export default class Home extends React.Component {
+export default class TreasureLogin extends React.Component {
     constructor(props) {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,16 +61,26 @@ export default class Home extends React.Component {
         })
         email.value= ''
         password.value= ''
+        this.props.userAuthenticated(response.headers.get('Location'))
     }
 
     render () {
-        return <form onSubmit={this.handleSubmit}>
-            {this.state.error && (
-                <div className="alert alert-danger">{this.state.error}</div>
-            )}
-            <Field name="email" ref={this.email} helpText={'hmarquardt@hotmail.com'}>Email</Field>
-            <Field name="password" ref={this.password} helpText={'password'}>Password</Field>
-            <button className="btn btn-primary">Submit</button>
-        </form>;
+        return <div className="card card-login">
+            <div className="card-body">
+                <form onSubmit={this.handleSubmit}>
+                    {this.state.error && (
+                        <div className="alert alert-danger">{this.state.error}</div>
+                    )}
+                    <Field name="email" ref={this.email} helpText={'hmarquardt@hotmail.com'}>Email</Field>
+                    <Field name="password" ref={this.password} helpText={'password'}>Password</Field>
+                    <button className="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+        ;
     }
+}
+
+TreasureLogin.propTypes = {
+    userAuthenticated: PropTypes.func.isRequired
 }

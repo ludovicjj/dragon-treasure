@@ -2,12 +2,9 @@
 {% block body %}
     <div class="page-wrapper">
         <div class="container">
-            <div class="card card-login">
-                <img src="{{ asset('build/images/treasure-min.jpg') }}" class="card-img-top card-image" alt="...">
-                <div class="card-body">
-                    <div {{ react_component('LoginForm', {}) }}></div>
-                </div>
-            </div>
+            <div {{ react_component('TreasureConnectApp', {
+                'user': userData
+            }) }} class="treasure-container w-100"></div>
         </div>
     </div>
 
