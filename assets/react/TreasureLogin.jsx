@@ -71,8 +71,8 @@ export default class TreasureLogin extends React.Component {
                     {this.state.error && (
                         <div className="alert alert-danger">{this.state.error}</div>
                     )}
-                    <Field name="email" ref={this.email} helpText={'hmarquardt@hotmail.com'}>Email</Field>
-                    <Field name="password" ref={this.password} helpText={'password'}>Password</Field>
+                    <Field name="email" ref={this.email} helpText={'bernie@dragonmail.com'}>Email</Field>
+                    <Field name="password" ref={this.password} helpText={'roar'}>Password</Field>
                     <button className="btn btn-primary">Submit</button>
                 </form>
             </div>
