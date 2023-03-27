@@ -34,20 +34,11 @@ a.underline{
 .card-wrapper > * {
     flex: 1 1 0;
 }
-.card-info > .card-body {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+/** Info User **/
+
+.user .separator {
+    border-top: 1px solid #ccc;
+    width: 70%;
 }
-.card-info > .card-body > div {
-    flex: 1 1 auto;
-    text-align: center;
-}
-.card-info > .card-body > div.user {
-    border-bottom: 1px solid rgba(0,0,0,.2);
-    height: 30%;
-}
-.card-info > .card-body > div:last-child {
-    height: 70%;
-}
+
 

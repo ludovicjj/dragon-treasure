@@ -3,7 +3,8 @@
     <div class="page-wrapper">
         <div class="container">
             <div {{ react_component('TreasureConnectApp', {
-                'user': userData
+                'user': userData,
+                'tokens': app.user ? app.user.validTokenStrings : null
             }) }} class="treasure-container w-100"></div>
         </div>
     </div>

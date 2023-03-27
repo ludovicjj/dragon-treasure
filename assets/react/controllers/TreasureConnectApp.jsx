@@ -25,17 +25,30 @@ export default class TreasureConnectApp extends React.Component {
             <TreasureLogin userAuthenticated={this.onUserAuthenticated}/>
             <div className="card card-info">
                 <div className="card-body">
-                    <div className="user">
+                    <div className="user text-center">
                         {this.state.user ? (
-                            <div>Authenticated as <strong>{this.state.user.username}</strong>
+                            <div>
+                                Authenticated as <strong>{this.state.user.username}</strong>
                                 | <a href="/logout" className="underline">Log out</a>
+                                <br/>
+                                <h3 className="text-start mt-2">Tokens</h3>
+                                {this.props.tokens ? (
+                                    <div className="text-start">
+                                        <ul className="list-group">
+                                            {this.props.tokens.map(token => <li key={token} className="list-group-item">{token}</li>)}
+                                        </ul>
+                                    </div>
+                                ) : (
+                                    <div>Refresh to see tokens...</div>
+                                )}
                             </div>
                             ) : (
-                            'Not Authenticated'
+                            <div>
+                                Not Authenticated
+                                <hr className="my-5 mx-auto separator"/>
+                                <p>Check out the <a href="/api" className="underline">API Docs</a></p>
+                            </div>
                         )}
-                    </div>
-                    <div className="api">
-                        Check out the <a href="/api" className="underline">API Docs</a>
                     </div>
                 </div>
             </div>
@@ -43,5 +56,6 @@ export default class TreasureConnectApp extends React.Component {
     }
 }
 TreasureConnectApp.propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    tokens: PropTypes.array
 }
