@@ -5,6 +5,11 @@ api_platform:
         json: [ 'application/json' ]
         html: [ 'text/html' ]
         jsonhal: [ 'application/hal+json' ]
+    swagger:
+        api_keys:
+            access_token:
+                name: Authorization
+                type: header
     # disable docs : /api/docs.{json|jsonld}
     # enable_docs: false
     # disable entrypoint or API home page : /api
