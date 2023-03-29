@@ -142,6 +142,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->accessTokenScopes === null) {
             $roles = $this->roles;
+            // for users logged in via form login
+            // this role give all possible scopes that a token could have
+            // check role_hierarchy into security.yaml
             $roles[] = 'ROLE_FULL_USER';
         } else {
             $roles = $this->accessTokenScopes;
