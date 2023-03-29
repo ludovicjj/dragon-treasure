@@ -99,6 +99,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'ownedBy', targetEntity: ApiToken::class)]
     private Collection $apiTokens;
 
+    /* Scopes given during API authentication */
+    private ?array $accessTokenScopes = null;
+
     public function __construct()
     {
         $this->dragonTreasures = new ArrayCollection();
@@ -137,8 +140,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+        if ($this->accessTokenScopes === null) {
+            $roles = $this->roles;
+            $roles[] = 'ROLE_FULL_USER';
+        } else {
+            $roles = $this->accessTokenScopes;
+        }
+
+        // guarantee every user at least has ROLE_FULL_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -265,5 +274,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             ->filter(fn (ApiToken $token) => $token->isValid())
             ->map(fn (ApiToken $token) => $token->getToken())
             ->toArray();
+    }
+
+    public function markAsTokenAuthenticated(array $scopes)
+    {
+        $this->accessTokenScopes = $scopes;
     }
 }
