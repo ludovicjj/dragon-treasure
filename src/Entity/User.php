@@ -31,14 +31,20 @@ use ApiPlatform\Metadata\ApiFilter;
         new Get(),
         new GetCollection(),
         new Post(
+            security: 'is_granted("PUBLIC_ACCESS")',
             processor: UserProcessor::class
         ),
-        new Put(),
-        new Patch(),
+        new Put(
+            security: 'is_granted("ROLE_USER_EDIT")',
+        ),
+        new Patch(
+            security: 'is_granted("ROLE_USER_EDIT")',
+        ),
         new Delete()
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']],
+    security: 'is_granted("ROLE_USER")'
 )]
 #[ApiResource(
     uriTemplate: '/treasures/{treasure_id}/owner.{_format}',
@@ -49,7 +55,8 @@ use ApiPlatform\Metadata\ApiFilter;
             fromClass: DragonTreasure::class
         )
     ],
-    normalizationContext: ['groups' => ['user:read']]
+    normalizationContext: ['groups' => ['user:read']],
+    security: 'is_granted("ROLE_USER")'
 )]
 #[UniqueEntity(fields: ['email'], message: 'this email is already used')]
 #[UniqueEntity(fields: ['username'], message: 'this username is already used')]
