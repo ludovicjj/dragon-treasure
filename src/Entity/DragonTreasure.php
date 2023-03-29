@@ -7,6 +7,7 @@ use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use App\Repository\DragonTreasureRepository;
@@ -42,6 +43,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Patch(
             security: 'is_granted("ROLE_TREASURE_EDIT")'
+        ),
+        new Delete(
+            security: 'is_granted("ROLE_ADMIN")'
         )
     ],
     formats: [
