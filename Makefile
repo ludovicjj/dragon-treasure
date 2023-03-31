@@ -84,4 +84,8 @@ sf-dump-params: ## Dump container parameters.
 sf-dump-routes: ## Dump routes.
 	$(SYMFONY_CONSOLE) debug:router
 .PHONY: sf-dump-routes
+
+sf-test: ## run test
+	$(SYMFONY) php bin/phpunit
+.PHONY: sf-test
 #------------------------------------------------------------#
