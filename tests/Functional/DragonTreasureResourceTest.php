@@ -4,6 +4,7 @@ namespace App\Tests\Functional;
 
 use App\Factory\DragonTreasureFactory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Zenstruck\Browser\Json;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -18,9 +19,20 @@ class DragonTreasureResourceTest extends KernelTestCase
 
         $this->browser()
             ->get('/api/treasures')
-            ->assertJson()
-            ->assertJsonMatches('"hydra:totalItems"', 5)
-            ->dump();
-        ;
+            ->assertJsonMatches(
+                'keys("hydra:member"[0])',
+                ['@id', '@type', 'name', 'description', 'value', 'coolFactor', 'owner', 'shortDescription', 'plunderedAtAgo']
+            )
+            ->assertJsonMatches('"hydra:totalItems"', 5);
+
+        // Same result as above with traditional assert (without jmespath)
+        $json = $this->browser()
+            ->get('/api/treasures')
+            ->json();
+
+        $this->assertSame(
+            ['@id', '@type', 'name', 'description', 'value', 'coolFactor', 'owner', 'shortDescription', 'plunderedAtAgo'],
+            array_keys($json->decoded()['hydra:member'][0])
+        );
     }
 }
