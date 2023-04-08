@@ -17,19 +17,26 @@ class DragonTreasureResourceTest extends KernelTestCase
     {
         DragonTreasureFactory::createMany(5);
 
-        $this->browser()
-            ->get('/api/treasures')
-            ->assertJsonMatches(
-                'keys("hydra:member"[0])',
-                ['@id', '@type', 'name', 'description', 'value', 'coolFactor', 'owner', 'shortDescription', 'plunderedAtAgo']
-            )
-            ->assertJsonMatches('"hydra:totalItems"', 5);
-
-        // Same result as above with traditional assert (without jmespath)
         $json = $this->browser()
             ->get('/api/treasures')
+            ->assertJson()
+            ->assertJsonMatches('"hydra:totalItems"', 5)
+            ->assertJsonMatches('length("hydra:member")', 5)
             ->json();
 
+        $json->assertMatches('keys("hydra:member"[0])', [
+            '@id',
+            '@type',
+            'name',
+            'description',
+            'value',
+            'coolFactor',
+            'owner',
+            'shortDescription',
+            'plunderedAtAgo',
+        ]);
+
+        // Same result as above with traditional assertSame (without jmespath)
         $this->assertSame(
             ['@id', '@type', 'name', 'description', 'value', 'coolFactor', 'owner', 'shortDescription', 'plunderedAtAgo'],
             array_keys($json->decoded()['hydra:member'][0])
