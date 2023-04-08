@@ -32,6 +32,7 @@ use ApiPlatform\Metadata\ApiFilter;
         new GetCollection(),
         new Post(
             security: 'is_granted("PUBLIC_ACCESS")',
+            validationContext: ['groups' => ['Default', 'create']],
             processor: UserProcessor::class
         ),
         new Put(
@@ -100,7 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups(['user:write'])]
     #[SerializedName('password')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(groups: ['create'])]
     private ?string $plainPassword = null;
 
     #[ORM\OneToMany(mappedBy: 'ownedBy', targetEntity: ApiToken::class)]
