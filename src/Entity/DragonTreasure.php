@@ -63,7 +63,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     paginationClientItemsPerPage: true,
     paginationItemsPerPage: 10,
-    paginationMaximumItemsPerPage: 30
+    paginationMaximumItemsPerPage: 30,
+    extraProperties: [
+        'standard_put' => true
+    ]
 )]
 #[ApiResource(
     uriTemplate: '/users/{user_id}/treasures.{_format}',
