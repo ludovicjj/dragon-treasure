@@ -45,7 +45,10 @@ use ApiPlatform\Metadata\ApiFilter;
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']],
-    security: 'is_granted("ROLE_USER")'
+    security: 'is_granted("ROLE_USER")',
+    extraProperties: [
+        'standard_put' => true
+    ]
 )]
 #[ApiResource(
     uriTemplate: '/treasures/{treasure_id}/owner.{_format}',
@@ -57,7 +60,10 @@ use ApiPlatform\Metadata\ApiFilter;
         )
     ],
     normalizationContext: ['groups' => ['user:read']],
-    security: 'is_granted("ROLE_USER")'
+    security: 'is_granted("ROLE_USER")',
+    extraProperties: [
+        'standard_put' => true
+    ]
 )]
 #[UniqueEntity(fields: ['email'], message: 'this email is already used')]
 #[UniqueEntity(fields: ['username'], message: 'this username is already used')]
