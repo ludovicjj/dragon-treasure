@@ -20,11 +20,8 @@ class OpenApiFactoryDecorator implements OpenApiFactoryInterface
         $securitySchemes = $openApi->getComponents()->getSecuritySchemes();
 
         $securitySchemes['access_token'] = new SecurityScheme(
-            'http',
-            'Value for the Authorization header parameter.',
-            'Authorization',
-            'header',
-            'bearer'
+            type: 'http',
+            scheme: 'bearer'
         );
 
         return $openApi;
