@@ -4,14 +4,12 @@ namespace App\Tests\Functional;
 
 use App\Factory\DragonTreasureFactory;
 use App\Factory\UserFactory;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-class DragonTreasureResourceTest extends KernelTestCase
+class DragonTreasureResourceTest extends ApiTestCase
 {
-    use HasBrowser;
-    use ResetDatabase; // create db app_test and reset db app_test before each tests
+    // create db app_test and reset db app_test before each tests
+    use ResetDatabase;
 
     public function testGetCollectionOfTreasures(): void
     {
@@ -58,7 +56,7 @@ class DragonTreasureResourceTest extends KernelTestCase
                     'description' => 'It sparkles when I wave it in the air.',
                     'value' => 1000,
                     'coolFactor' => 5,
-                    'owner' => '/api/users/'.$user->getId(),
+                    'owner' => '/api/users/'.$user->getId()
                 ]
             ])
             ->assertStatus(201)
