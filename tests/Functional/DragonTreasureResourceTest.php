@@ -98,4 +98,47 @@ class DragonTreasureResourceTest extends ApiTestCase
             ->assertStatus(403)
         ;
     }
+
+    public function testPatchToUpdateTreasureByOwner(): void
+    {
+        $user = UserFactory::createOne();
+        $treasure = DragonTreasureFactory::createOne(['owner' => $user]);
+
+        $this->browser()
+            ->actingAs($user)
+            ->patch('/api/treasures/' . $treasure->getId(), [
+                'json' => [
+                    'value' => 12345
+                ]
+            ])
+            ->assertStatus(200)
+            ->assertJsonMatches('value', 12345);
+
+        $user2 = UserFactory::createOne();
+        $this->browser()
+            ->actingAs($user2)
+            ->patch('/api/treasures/' . $treasure->getId(), [
+                'json' => [
+                    'value' => 6789
+                ]
+            ])
+            ->assertStatus(403);
+    }
+
+    public function testPatchToUpdateOwnerTreasure(): void
+    {
+        $user = UserFactory::createOne();
+        $user2 = UserFactory::createOne();
+        $treasure = DragonTreasureFactory::createOne(['owner' => $user]);
+
+        $this->browser()
+            ->actingAs($user)
+            ->patch('/api/treasures/' . $treasure->getId(), [
+                'json' => [
+                    // change the owner to someone else blocked by securityPostDenormalize
+                    'owner' => '/api/users/'. $user2->getId()
+                ]
+            ])
+            ->assertStatus(403);
+    }
 }
