@@ -15,7 +15,6 @@ use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
@@ -38,11 +37,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             security: 'is_granted("ROLE_TREASURE_CREATE")'
         ),
-        new Put(
-            security: 'is_granted("ROLE_TREASURE_EDIT")'
-        ),
         new Patch(
-            security: 'is_granted("ROLE_TREASURE_EDIT")'
+            security: 'is_granted("ROLE_TREASURE_EDIT") and object.getOwner() == user',
+            // vérifie que le owner est toujours l'utilisateur connecter apres modification
+            securityPostDenormalize: 'object.getOwner() == user'
         ),
         new Delete(
             security: 'is_granted("ROLE_ADMIN")'
