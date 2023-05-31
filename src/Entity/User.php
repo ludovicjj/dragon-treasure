@@ -90,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var ?string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
@@ -158,7 +158,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $roles = $this->roles;
             // for users logged in via form login
             // this role give all possible scopes that a token could have
-            // check role_hierarchy into security.yaml
+            // checked role_hierarchy into security.yaml
             $roles[] = 'ROLE_FULL_USER';
         } else {
             $roles = $this->accessTokenScopes;
@@ -195,7 +195,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->plainPassword = null;

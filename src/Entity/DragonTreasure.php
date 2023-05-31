@@ -6,6 +6,7 @@ use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Link;
@@ -106,7 +107,7 @@ class DragonTreasure
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50, maxMessage: 'Describe your loot in 50 chars or less')]
-    private ?string $name = null;
+    private ?string $name;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Groups(['treasure:read'])]
@@ -133,6 +134,8 @@ class DragonTreasure
     private \DateTimeImmutable $plunderedAt;
 
     #[ORM\Column]
+    #[Groups(['treasure:read', 'treasure:write'])]
+    #[ApiProperty(security: 'is_granted("EDIT", object)')]
     #[ApiFilter(BooleanFilter::class)]
     private ?bool $isPublished;
 
