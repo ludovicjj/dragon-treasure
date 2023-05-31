@@ -40,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Patch(
             security: 'is_granted("EDIT", object)',
-            // vérifie que le owner est toujours l'utilisateur connecter apres modification
+            // vérifie que le propriétaire est toujours l'utilisateur connecté apres modification
             securityPostDenormalize: 'is_granted("EDIT", object)'
         ),
         new Delete(
