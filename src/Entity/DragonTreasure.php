@@ -38,9 +38,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_TREASURE_CREATE")'
         ),
         new Patch(
-            security: 'is_granted("ROLE_TREASURE_EDIT") and object.getOwner() == user',
+            security: 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_TREASURE_EDIT") and object.getOwner() == user)',
             // vérifie que le owner est toujours l'utilisateur connecter apres modification
-            securityPostDenormalize: 'object.getOwner() == user'
+            securityPostDenormalize: 'is_granted("ROLE_ADMIN") or object.getOwner() == user'
         ),
         new Delete(
             security: 'is_granted("ROLE_ADMIN")'
