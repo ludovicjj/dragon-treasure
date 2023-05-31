@@ -12,7 +12,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use App\Repository\UserRepository;
-use App\State\UserProcessor;
+use App\State\UserHashPasswordStateProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,8 +32,7 @@ use ApiPlatform\Metadata\ApiFilter;
         new GetCollection(),
         new Post(
             security: 'is_granted("PUBLIC_ACCESS")',
-            validationContext: ['groups' => ['Default', 'create']],
-            processor: UserProcessor::class
+            validationContext: ['groups' => ['Default', 'create']]
         ),
         new Put(
             security: 'is_granted("ROLE_USER_EDIT")',
