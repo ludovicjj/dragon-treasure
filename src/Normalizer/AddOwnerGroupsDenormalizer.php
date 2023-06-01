@@ -17,7 +17,7 @@ class AddOwnerGroupsDenormalizer implements DenormalizerInterface
     {
     }
 
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
     {
         if (
             $type === DragonTreasure::class
@@ -30,8 +30,8 @@ class AddOwnerGroupsDenormalizer implements DenormalizerInterface
         return $this->decorated->denormalize($data, $type, $format, $context);
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null)
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
-        return $this->decorated->supportsDenormalization($data, $type, $format);
+        return $this->decorated->supportsDenormalization($data, $type, $format, $context);
     }
 }

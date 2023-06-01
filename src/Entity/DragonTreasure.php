@@ -145,6 +145,9 @@ class DragonTreasure
     #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private ?User $owner = null;
 
+    #[Groups(['treasure:read'])]
+    private ?bool $isMine = null;
+
     // let args name with default value null
     // serializer need to be able to instantiate the object
     // Then validator will handle violation (property name can't be null)
@@ -259,5 +262,15 @@ class DragonTreasure
         $this->owner = $owner;
 
         return $this;
+    }
+
+    public function getIsMine(): ?bool
+    {
+        return $this->isMine;
+    }
+
+    public function setIsMine(?bool $isMine): void
+    {
+        $this->isMine = $isMine;
     }
 }
