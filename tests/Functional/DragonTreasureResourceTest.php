@@ -45,7 +45,7 @@ class DragonTreasureResourceTest extends ApiTestCase
 
     public function testPostToCreateTreasure(): void
     {
-        $user = UserFactory::createOne(['password' => 'pass']);
+        $user = UserFactory::createOne();
         $this->browser()
             ->actingAs($user)
             ->post('/api/treasures', [
@@ -99,11 +99,12 @@ class DragonTreasureResourceTest extends ApiTestCase
         ;
     }
 
-    public function testPatchToUpdateTreasureByOwner(): void
+    public function testPatchToUpdateTreasure(): void
     {
         $user = UserFactory::createOne();
         $treasure = DragonTreasureFactory::createOne(['owner' => $user]);
 
+        // owner can edit treasure
         $this->browser()
             ->actingAs($user)
             ->patch('/api/treasures/' . $treasure->getId(), [
@@ -114,6 +115,7 @@ class DragonTreasureResourceTest extends ApiTestCase
             ->assertStatus(200)
             ->assertJsonMatches('value', 12345);
 
+        // only owner can edit treasure
         $user2 = UserFactory::createOne();
         $this->browser()
             ->actingAs($user2)
@@ -122,24 +124,19 @@ class DragonTreasureResourceTest extends ApiTestCase
                     'value' => 6789
                 ]
             ])
+            // blocked by security DragonTreasureVoter
             ->assertStatus(403);
-    }
 
-    public function testPatchToUpdateOwnerTreasure(): void
-    {
-        $user = UserFactory::createOne();
-        $user2 = UserFactory::createOne();
-        $treasure = DragonTreasureFactory::createOne(['owner' => $user]);
-
+        // owner are not allowed to set owner to someone else
         $this->browser()
             ->actingAs($user)
             ->patch('/api/treasures/' . $treasure->getId(), [
                 'json' => [
-                    // change the owner to someone else blocked by securityPostDenormalize
+                    // change the owner to someone else blocked by validator IsValidOwnerValidator
                     'owner' => '/api/users/'. $user2->getId()
                 ]
             ])
-            ->assertStatus(403);
+            ->assertStatus(422);
     }
 
     public function testAdminCanPatchToEditTreasure(): void

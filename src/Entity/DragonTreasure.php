@@ -6,12 +6,12 @@ use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use App\Repository\DragonTreasureRepository;
+use App\Validator\IsValidOwner;
 use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -39,9 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_TREASURE_CREATE")'
         ),
         new Patch(
-            security: 'is_granted("EDIT", object)',
-            // vérifie que le propriétaire est toujours l'utilisateur connecté apres modification
-            securityPostDenormalize: 'is_granted("EDIT", object)'
+            security: 'is_granted("EDIT", object)'
         ),
         new Delete(
             security: 'is_granted("ROLE_ADMIN")'
@@ -142,6 +140,8 @@ class DragonTreasure
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['treasure:read', 'treasure:write'])]
     #[Assert\Valid]
+    #[Assert\NotNull]
+    #[IsValidOwner]
     #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private ?User $owner = null;
 
